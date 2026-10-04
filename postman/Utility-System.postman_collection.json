@@ -1,0 +1,350 @@
+{
+  "info": {
+    "name": "Utility System API",
+    "description": "Complete API collection for util.techintricks.in. Run login or admin login first; Postman's cookie jar preserves the session. Conversion requests return a job_id that can be assigned to {{jobId}} for status and download requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:5000" },
+    { "key": "email", "value": "john@example.com" },
+    { "key": "password", "value": "secret123" },
+    { "key": "token", "value": "replace-with-reset-token" },
+    { "key": "jobId", "value": "replace-with-job-id" },
+    { "key": "fileId", "value": "1" },
+    { "key": "uid", "value": "1" },
+    { "key": "pageId", "value": "1" },
+    { "key": "postId", "value": "1" },
+    { "key": "categoryId", "value": "1" },
+    { "key": "tagId", "value": "1" },
+    { "key": "pageSlug", "value": "about-us" },
+    { "key": "postSlug", "value": "hello-world" },
+    { "key": "imagePath", "value": "C:\\path\\image.jpg" },
+    { "key": "pdfPath", "value": "C:\\path\\document.pdf" },
+    { "key": "secondPdfPath", "value": "C:\\path\\second.pdf" },
+    { "key": "wordPath", "value": "C:\\path\\document.docx" }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "username", "value": "John Doe", "type": "text" },
+              { "key": "email", "value": "{{email}}", "type": "text" },
+              { "key": "password", "value": "{{password}}", "type": "text" },
+              { "key": "confirm", "value": "{{password}}", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/register"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "email", "value": "{{email}}", "type": "text" },
+              { "key": "password", "value": "{{password}}", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/login"
+          }
+        },
+        {
+          "name": "Logout GET",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/logout" }
+        },
+        {
+          "name": "Logout POST",
+          "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/logout" }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [{ "key": "email", "value": "{{email}}", "type": "text" }]},
+            "url": "http://127.0.0.1:5000/forgot-password"
+          }
+        },
+        {
+          "name": "Validate Reset Token",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/reset-password/{{token}}" }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "password", "value": "newsecret123", "type": "text" },
+              { "key": "confirm", "value": "newsecret123", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/reset-password/{{token}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tools",
+      "item": [
+        {
+          "name": "Compress Image",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "images", "type": "file", "src": "{{imagePath}}" },
+              { "key": "quality", "value": "75", "type": "text" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/compressor/image"
+          }
+        },
+        {
+          "name": "Compress PDF",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "pdfs", "type": "file", "src": "{{pdfPath}}" },
+              { "key": "quality", "value": "medium", "type": "text" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/compressor/pdf"
+          }
+        },
+        {
+          "name": "Combine PDFs",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "pdfs", "type": "file", "src": "{{pdfPath}}" },
+              { "key": "pdfs", "type": "file", "src": "{{secondPdfPath}}" },
+              { "key": "outname", "value": "combined.pdf", "type": "text" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/compressor/combine"
+          }
+        },
+        {
+          "name": "Convert Image",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "images", "type": "file", "src": "{{imagePath}}" },
+              { "key": "format", "value": "png", "type": "text" },
+              { "key": "quality", "value": "90", "type": "text" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/conversion/image-convert"
+          }
+        },
+        {
+          "name": "Convert Image to PDF",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "images", "type": "file", "src": "{{imagePath}}" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/conversion/image-to-pdf"
+          }
+        },
+        {
+          "name": "Convert Text to PDF",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "urlencoded", "urlencoded": [
+              { "key": "text", "value": "Hello, this is sample text.", "type": "text" },
+              { "key": "outname", "value": "text.pdf", "type": "text" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/conversion/text-to-pdf"
+          }
+        },
+        {
+          "name": "Convert Word to PDF",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "word", "type": "file", "src": "{{wordPath}}" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/conversion/word-to-pdf"
+          }
+        },
+        {
+          "name": "Convert PDF to Word",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "pdfs", "type": "file", "src": "{{pdfPath}}" },
+              { "key": "save", "value": "1", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/conversion/pdf-to-word"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User API",
+      "item": [
+        { "name": "Current User", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/api/me" } },
+        { "name": "User Profile", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/api/me" } },
+        {
+          "name": "Update Profile Name",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Name\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/api/profile"
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"current_password\": \"{{password}}\",\n  \"new_password\": \"newsecret123\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "http://127.0.0.1:5000/api/change-password"
+          }
+        },
+        { "name": "Delete Account", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/api/delete-account" } }
+      ]
+    },
+    {
+      "name": "Saved Files",
+      "item": [
+        { "name": "List My Files", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/my-files" } },
+        { "name": "Download Saved File", "request": { "method": "GET", "url": "http://127.0.0.1:5000/my-files/download/{{fileId}}" } },
+        { "name": "Delete Saved File", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/my-files/delete/{{fileId}}" } }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        { "name": "Job Status", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/api/jobs/{{jobId}}" } },
+        { "name": "Download Job Result", "request": { "method": "GET", "url": "http://127.0.0.1:5000/api/jobs/{{jobId}}/download" } }
+      ]
+    },
+    {
+      "name": "Admin API",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "email", "value": "{{email}}", "type": "text" },
+              { "key": "password", "value": "{{password}}", "type": "text" }
+            ]},
+            "url": "http://127.0.0.1:5000/admin/login"
+          }
+        },
+        { "name": "Admin Logout", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/admin/logout" } },
+        { "name": "Admin Dashboard", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/admin/dashboard" } },
+        { "name": "Activate User", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/admin/users/{{uid}}/activate" } },
+        { "name": "Deactivate User", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }], "url": "http://127.0.0.1:5000/admin/users/{{uid}}/deactivate" } },
+        { "name": "Delete User", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/users/{{uid}}/delete" } },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"username\": \"Updated User\",\n  \"email\": \"updated@example.com\",\n  \"is_active\": true,\n  \"is_admin\": false\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/admin/users/{{uid}}"
+          }
+        },
+        {
+          "name": "List Pages",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/pages" }
+        },
+        {
+          "name": "Create Page",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"About us\",\n  \"slug\": \"about-us\",\n  \"content_html\": \"<p>Page content</p>\",\n  \"seo_title\": \"About us | Utility System\",\n  \"seo_description\": \"Learn more about Utility System.\",\n  \"seo_keywords\": \"utility tools\",\n  \"canonical_url\": \"https://example.com/about-us\",\n  \"status\": \"draft\",\n  \"is_published\": false\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/admin/pages"
+          }
+        },
+        {
+          "name": "Update Page",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Updated page\",\n  \"slug\": \"updated-page\",\n  \"content_html\": \"<p>Updated content</p>\",\n  \"status\": \"published\",\n  \"is_published\": true,\n  \"published_at\": \"2026-09-11T00:00:00Z\",\n  \"modified_at\": \"2026-09-11T00:00:00Z\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/admin/pages/{{pageId}}"
+          }
+        },
+        { "name": "Delete Page", "request": { "method": "DELETE", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/pages/{{pageId}}" } },
+        {
+          "name": "List Posts",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/posts" }
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Hello world\",\n  \"slug\": \"hello-world\",\n  \"content_html\": \"<p>Post content</p>\",\n  \"categories\": [\"News\"],\n  \"tags\": [\"release\", \"guide\"],\n  \"status\": \"draft\",\n  \"is_published\": false\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/admin/posts"
+          }
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Updated post\",\n  \"slug\": \"updated-post\",\n  \"content_html\": \"<p>Updated content</p>\",\n  \"categories\": [\"News\"],\n  \"tags\": [\"updated\"],\n  \"status\": \"published\",\n  \"is_published\": true\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/admin/posts/{{postId}}"
+          }
+        },
+        { "name": "Delete Post", "request": { "method": "DELETE", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/posts/{{postId}}" } },
+        {
+          "name": "List Categories",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/categories" }
+        },
+        {
+          "name": "Create Category",
+          "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"News\"\n}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/admin/categories" }
+        },
+        {
+          "name": "List Tags",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/tags" }
+        },
+        {
+          "name": "Create Tag",
+          "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"release\"\n}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/admin/tags" }
+        },
+        {
+          "name": "Get SEO Settings",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/admin/seo" }
+        },
+        {
+          "name": "Update SEO Settings",
+          "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"site_title\": \"Utility System\",\n  \"site_description\": \"Online file utilities\",\n  \"site_keywords\": \"PDF, image, file tools\",\n  \"canonical_url\": \"https://example.com\",\n  \"robots_index\": \"1\",\n  \"robots_follow\": \"1\"\n}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/admin/seo" }
+        }
+      ]
+    },
+    {
+      "name": "Public Content API",
+      "item": [
+        { "name": "Public Site Settings", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/api/site-settings" } },
+        { "name": "Public Page", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/api/content/pages/{{pageSlug}}" } },
+        { "name": "Public Post", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{baseUrl}}/api/content/posts/{{postSlug}}" } }
+      ]
+    }
+  ]
+}

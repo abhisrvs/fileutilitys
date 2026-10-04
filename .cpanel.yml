@@ -1,0 +1,14 @@
+---
+# cPanel Backend (Flask API) Deployment
+# Pulls entire repo, then copies only backend Python files to app root.
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/axrbjweujm/util.techintricks.in/
+    # Remove stale files from previous deployments
+    - /bin/rm -rf "$DEPLOYPATH/__pycache__"
+    - /bin/rm -f "$DEPLOYPATH/users.db" "$DEPLOYPATH/users.db-wal" "$DEPLOYPATH/users.db-shm"
+    - /bin/rm -f "$DEPLOYPATH/test_pdf_to_word.py" "$DEPLOYPATH/test_upload.py"
+    - /bin/rm -f "$DEPLOYPATH/output.xlsx" "$DEPLOYPATH/visits.csv"
+    - /bin/rm -rf "$DEPLOYPATH/templates" "$DEPLOYPATH/frontend" "$DEPLOYPATH/static"
+    # Copy only the backend Python files to app root
+    - /bin/cp -f backend/app.py backend/admin.py backend/auth.py backend/auth_context.py backend/database.py backend/files.py backend/jobs.py backend/worker.py backend/limiter_setup.py backend/logging_config.py "$DEPLOYPATH"
